@@ -22,7 +22,7 @@ const PORTFOLIO = {
     {
       title: "Automatic Dartboard",
       category: "Robotics / C++",
-      image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?auto=format&fit=crop&q=80&w=800"
+      image: "/dartboard.png",
     },
     {
       title: "6-DOF Robotic Arm",
@@ -134,7 +134,7 @@ const App = () => {
           >
             <img 
               src={PORTFOLIO.headshot} 
-              alt="Leon Profile Color" 
+              alt="Leon Profile" 
               className="w-full h-full object-cover colour object-bottom contrast-125"
             />
           </motion.div>
@@ -171,7 +171,7 @@ const App = () => {
 
         {/* 2. The Fog Hat */}
         <div 
-          className="h-[38vh] w-full -mb-1"
+          className="h-[40vh] w-full -mb-1"
           style={{
             background: 'linear-gradient(to top, white 0%, rgba(255,255,255,0.8) 50%, rgba(255,255,255,0) 100%)',
             backdropFilter: 'blur(12px)',
@@ -184,7 +184,7 @@ const App = () => {
         {/* 3. Solid White Background */}
         {/* Added 'pointer-events-auto' so you can actually click the links and projects in this section */}
         {/* REMOVED the broken shadow class from this line */}
-        <div className="bg-white pb-32 pt-12 relative z-20 pointer-events-auto">
+        <div className="bg-white pb-12 pt-12 relative z-20 pointer-events-auto">
           <div className="max-w-6xl mx-auto px-6 md:px-12">
             
             <div className="flex justify-between items-end mb-10 border-b border-gray-100 pb-8">
@@ -233,7 +233,7 @@ const App = () => {
             </div>
 
             {/* FOOTER BUTTONS */}
-            <div className="mt-16 border-t border-gray-100 pt-20 flex flex-col items-center">
+            <div className="mt-10 border-t border-gray-100 pt-10 flex flex-col items-center">
               <p className="text-gray-400 mb-8 font-mono text-sm tracking-widest">CONNECT WITH ME</p>
               <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto">
                 <button onClick={handleCopy} className={buttonClass}>
