@@ -1,0 +1,23 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Sora:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: #ffffff;
+  color: #111111;
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased; /* Critical for the clean look */
+}
+
+h1, h2, h3 {
+  font-family: 'Sora', sans-serif;
+}
+
+/* Hide scrollbar for cleaner aesthetic, but keep functionality */
+::-webkit-scrollbar {
+  width: 0px; 
+  background: transparent; 
+}
