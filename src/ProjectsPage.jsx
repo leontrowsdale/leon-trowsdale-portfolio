@@ -8,29 +8,58 @@ export default function ProjectsPage() {
   return (
     <motion.main className="min-h-screen bg-white">
 
-      {/* --- STICKY MINI BRAND (Stays on screen) --- */}
-      <Link 
-        to="/"
-        className="fixed top-5 left-6 md:top-11 md:left-10 z-[70] cursor-pointer group outline-none flex items-center gap-2 h-9 pointer-events-auto"
-      >
-        <div className="h-4 w-1 bg-green-500 rounded-full group-hover:shadow-[0_0_12px_rgba(34,197,94,0.6)] transition-shadow"></div>
-        <span className="text-sm md:text-base font-bold tracking-tighter text-black uppercase whitespace-nowrap group-hover:text-green-700 transition-colors">
-          Leon Trowsdale
-        </span>
-      </Link>
+{/* --- STICKY NAV GROUP WITH CONTOURED FOG --- */}
+      <div className="fixed top-5 left-6 md:top-11 md:left-10 z-[70] flex flex-col items-start gap-1 pointer-events-none">
+        
+        {/* 1. Mini Brand (Wider Fog) */}
+        <div className="relative pointer-events-auto">
+          {/* Fog tailored to the brand width */}
+          <div 
+            className="absolute inset-0 z-[-1] -m-5" 
+            style={{
+              background: 'radial-gradient(ellipse at center, white 0%, rgba(255,255,255,0.9) 40%, transparent 80%)',
+              filter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(4px)',
+            }}
+          />
+          <Link 
+            to="/"
+            className="cursor-pointer group outline-none flex items-center gap-2 h-9"
+          >
+            <div className="h-4 w-1 bg-green-500 rounded-full group-hover:shadow-[0_0_12px_rgba(34,197,94,0.6)] transition-shadow"></div>
+            <span className="text-sm md:text-base font-bold tracking-tighter text-black uppercase whitespace-nowrap group-hover:text-green-700 transition-colors">
+              Leon Trowsdale
+            </span>
+          </Link>
+        </div>
 
-      {/* --- FLOATING BACK BUTTON (Beneath Mini Brand) --- */}
-      <Link 
-        to="/" 
-        className="fixed top-16 left-6 md:top-20 md:left-10 z-[70] flex items-center gap-2 text-[10px] font-mono text-gray-400 hover:text-green-600 transition-colors bg-white/50 py-1 pr-2 rounded-full backdrop-blur-sm"
-      >
-        <ArrowLeft size={14} /> HOME
-      </Link>
+        {/* 2. Floating Back Button (Narrower Fog) */}
+        <div className="relative pointer-events-auto pl-1">
+          {/* Fog tailored to the shorter button width */}
+          <div 
+            className="absolute inset-0 z-[-1] -m-5" 
+            style={{
+              background: 'radial-gradient(ellipse at center, white 0%, rgba(255,255,255,0.9) 40%, transparent 80%)',
+              filter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(4px)',
+            }}
+          />
+          <Link 
+            to="/" 
+            className="flex items-center gap-2 text-[10px] font-mono text-gray-400 hover:text-green-600 transition-colors py-1 pr-2"
+          >
+            <ArrowLeft size={14} /> HOME
+          </Link>
+        </div>
+        
+      </div>
+{/* --- STATIC NAV --- */}
+      <nav className="p-8 md:px-24 flex justify-between items-center bg-white relative">
+        
+        {/* --- ADJUSTED LINE: Changed w-24 to w-48 --- */}
+        <div className="absolute bottom-0 right-1 w-[192px] md:w-[1360px] h-[1px] bg-gray-100"></div>
 
-      {/* --- STATIC NAV (Scrolls with page) --- */}
-      <nav className="p-8 md:px-24 border-b border-gray-100 flex justify-between items-center bg-white">
-        {/* Placeholder to maintain the horizontal line and right-side text */}
-        <div className="invisible flex items-center gap-2 text-sm font-mono">
+        <div className="invisible flex items-center gap-2 text-sm font-mono text-gray-400">
           <ArrowLeft size={16} /> HOME
         </div>
         

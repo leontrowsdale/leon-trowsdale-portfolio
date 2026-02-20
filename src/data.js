@@ -93,7 +93,7 @@ education: [
     {
       slug: "screen-reactive-backlight",
       title: "Screen Reactive Backlight",
-      featured: true,
+      featured: false,
       category: "Arduino / Prismatic / Hyperion",
       image: "/backlight.png",
       shortDescription: "Engineered a robust solution for immersive ambient lighting using real-time screen capture processing.",
@@ -102,7 +102,7 @@ education: [
     {
       slug: "ubrobotics",
       title: "UBRobotics",
-      featured: true,
+      featured: false,
       category: "Robotics",
       image: "/ubr.jpg",
       shortDescription: "Creative direction and technical execution of cinematic video projects and post-production.",
@@ -111,7 +111,7 @@ education: [
     {
       slug: "fpv-drones",
       title: "FPV Drones",
-      featured: true,
+      featured: false,
       category: "Electronics / Betaflight",
       image: "/drone.png",
       shortDescription: "Engineered high-performance flight systems integrating PID tuning and custom electronics layouts.",
@@ -120,7 +120,7 @@ education: [
     {
       slug: "plywood-longboard",
       title: "Plywood Longboard",
-      featured: true,
+      featured: false,
       category: "Woodworking",
       image: "/longboard.jpeg",
       shortDescription: "Engineered a robust structural deck using vacuum-pressing and composite plywood layering.",
@@ -129,7 +129,7 @@ education: [
     {
       slug: "videography",
       title: "Videography",
-      featured: true,
+      featured: false,
       category: "Video",
       image: "/video.png",
       shortDescription: "Creative direction and technical execution of cinematic video projects and post-production.",
