@@ -156,37 +156,26 @@ const App = () => {
         </a>
       </nav>
 {/* --- FIXED BACKGROUND LAYER --- */}
-      <motion.div style={{ opacity: bgOpacity }} className="fixed top-0 left-0 w-full h-[100lvh] z-0 flex justify-end items-end pointer-events-none md:pr-22">
+      <motion.div style={{ opacity: bgOpacity }} className="fixed inset-0 z-0 flex justify-end items-end pointer-events-none md:pr-22">
         <div 
-          className="w-full h-full md:w-[60vw] md:h-[95vh] relative pointer-events-auto cursor-default overflow-hidden"
+          className="w-full h-full max-h-[100dvh] md:w-[60vw] md:h-[95vh] relative pointer-events-auto cursor-default overflow-hidden"
           onMouseMove={handleMouseMove}
           onMouseEnter={() => { controls?.x?.stop(); controls?.y?.stop(); setIsHovered(true); }}
           onMouseLeave={startIdleAnimation}
           onTouchStart={() => { controls?.x?.stop(); controls?.y?.stop(); }}
           onTouchEnd={() => setTimeout(startIdleAnimation, 500)}
         >
-          {/* MOBILE FIX: Dropped height to 95% to zoom out, and added -translate-y-12 to push it up */}
-          <img 
-            src={PORTFOLIO.headshot} 
-            alt="Leon Profile" 
-            className="absolute top-0 left-0 w-full object-cover object-bottom grayscale contrast-125 opacity-90 h-[95%] -translate-y-8 md:h-[110%] md:translate-y-0" 
-          />
+          <img src={PORTFOLIO.headshot} alt="Leon Profile" className="absolute inset-0 w-full h-[110%] object-cover object-bottom grayscale contrast-125 opacity-90" />
           <motion.div 
             className="absolute inset-0 z-10" 
             style={{ WebkitMaskImage: maskImage, maskImage: maskImage }}
             animate={{ opacity: isHovered ? 1 : 0 }} 
             transition={{ duration: 1 }}
           >
-            {/* Same classes applied to the colored hover mask to keep them perfectly aligned */}
-            <img 
-              src={PORTFOLIO.headshot} 
-              alt="Leon Profile Color" 
-              className="w-full object-cover object-bottom contrast-125 h-[95%] -translate-y-8 md:h-[110%] md:translate-y-0" 
-            />
+            <img src={PORTFOLIO.headshot} alt="Leon Profile Color" className="w-full h-[110%] object-cover object-bottom contrast-125" />
           </motion.div>
         </div>
       </motion.div>
-
 {/* --- HERO TEXT --- */}
       {/* Changed pb-12 to pb-6 on mobile, and kept md:pb-12 for desktop */}
       <div className="fixed bottom-0 left-0 w-full z-30 px-6 md:px-10 pb-6 md:pb-12 pointer-events-none">
