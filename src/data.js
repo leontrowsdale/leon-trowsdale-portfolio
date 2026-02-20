@@ -49,7 +49,7 @@ education: [
       role: "Work Experience",
       company: "Cabinet Office",
       year: "Jul 2023",
-      description: "Spent a week at the cyber directorate in the cabinet office learning about the latest technologies employed by the government to mitigate security breaches."
+      description: "Gained experience within the Cabinet Office Cyber Directorate, learning about advanced technologies used to prevent and respond to security breaches."
     }
   ],
 
@@ -57,6 +57,7 @@ education: [
     {
       slug: "automatic-dartboard",
       title: "Automatic Dartboard",
+      featured: true,
       category: "3D Printing / Autodarts",
       image: "/dartboard.png", 
       shortDescription: "Engineered a robust solution integrating C++ logic. Focusing on scalability, real-time performance, and clean architecture.",
@@ -65,6 +66,7 @@ education: [
     {
       slug: "lipo-safety-solution",
       title: "LiPo Battery Safety Solution",
+      featured: true,
       category: "Product Design / 3D Printing",
       image: "/lipo.png",
       shortDescription: "Engineered a robust storage solution. Focusing on safety, ease of access, and efficient 3D printed architecture.",
@@ -73,6 +75,7 @@ education: [
     {
       slug: "pan-tilt-face-tracking",
       title: "Pan/Tilt Face Tracking",
+      featured: true,
       category: "OpenCV / Arduino",
       image: "/opencv.jpg",
       shortDescription: "Engineered a robust solution integrating Python and Computer Vision logic for real-time tracking.",
@@ -81,6 +84,7 @@ education: [
     {
       slug: "3d-printed-hovercraft",
       title: "3D Printed Hovercraft",
+      featured: true,
       category: "3D Printing / RC",
       image: "/hovercraft.jpg",
       shortDescription: "Engineered a robust solution integrating high-speed brushless motors and lightweight 3D printed structures.",
@@ -89,6 +93,7 @@ education: [
     {
       slug: "screen-reactive-backlight",
       title: "Screen Reactive Backlight",
+      featured: true,
       category: "Arduino / Prismatic / Hyperion",
       image: "/backlight.png",
       shortDescription: "Engineered a robust solution for immersive ambient lighting using real-time screen capture processing.",
@@ -97,6 +102,7 @@ education: [
     {
       slug: "ubrobotics",
       title: "UBRobotics",
+      featured: true,
       category: "Robotics",
       image: "/ubr.jpg",
       shortDescription: "Creative direction and technical execution of cinematic video projects and post-production.",
@@ -105,6 +111,7 @@ education: [
     {
       slug: "fpv-drones",
       title: "FPV Drones",
+      featured: true,
       category: "Electronics / Betaflight",
       image: "/drone.png",
       shortDescription: "Engineered high-performance flight systems integrating PID tuning and custom electronics layouts.",
@@ -113,6 +120,7 @@ education: [
     {
       slug: "plywood-longboard",
       title: "Plywood Longboard",
+      featured: true,
       category: "Woodworking",
       image: "/longboard.jpeg",
       shortDescription: "Engineered a robust structural deck using vacuum-pressing and composite plywood layering.",
@@ -121,6 +129,7 @@ education: [
     {
       slug: "videography",
       title: "Videography",
+      featured: true,
       category: "Video",
       image: "/video.png",
       shortDescription: "Creative direction and technical execution of cinematic video projects and post-production.",
