@@ -20,8 +20,11 @@ const App = () => {
   const [isHovered, setIsHovered] = useState(false);
   const [controls, setControls] = useState(null);
 
-  const textOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+  const textOpacity = useTransform(scrollY, [0, 300], [1, 0]);
   const bgOpacity = useTransform(scrollY, [0, 1500], [1, 0]);
+  
+  // NEW: Sticky Mini-Brand opacity transform
+  const miniOpacity = useTransform(scrollY, [300, 500], [0, 1]);
   
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -80,17 +83,78 @@ const App = () => {
   return (
     <div className="relative w-full bg-white selection:bg-green-100 selection:text-green-900">
       
-      {/* --- HEADER --- */}
-      <nav className="fixed top-0 right-0 p-8 z-50 flex gap-4 items-center">
-        <a href={PORTFOLIO.linkedin} target="_blank" rel="noopener noreferrer" className="p-3 rounded-full bg-white/40 backdrop-blur-md border border-white/50 hover:scale-110 text-gray-700 shadow-sm transition-all">
-          <Linkedin size={20} />
+{/* --- STICKY MINI BRAND WITH FOG --- */}
+      <motion.button 
+        style={{ opacity: miniOpacity }}
+        className="fixed top-5 left-6 md:top-11 md:left-10 z-[60] pointer-events-auto cursor-pointer group outline-none"
+        onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        {/* The Fog: Still sits behind the name */}
+        <div 
+          className="absolute inset-0 z-[-1] -m-4" 
+          style={{
+            background: 'radial-gradient(circle at 0% 0%, white 0%, rgba(255,255,255,0.7) 40%, transparent 80%)',
+            filter: 'blur(15px)',
+            WebkitBackdropFilter: 'blur(4px)',
+          }}
+        />
+
+        {/* h-9 helper for button-nav alignment */}
+        <div className="flex items-center gap-2 h-9 relative">
+          {/* Green bar now pulses slightly on hover to signal interactivity */}
+          <div className="h-4 w-1 bg-green-500 rounded-full group-hover:shadow-[0_0_12px_rgba(34,197,94,0.6)] transition-shadow"></div>
+          <span className="text-sm md:text-base font-bold tracking-tighter text-black uppercase whitespace-nowrap group-hover:text-green-700 transition-colors">
+            Leon Trowsdale
+          </span>
+        </div>
+      </motion.button>
+
+{/* --- HEADER NAV --- */}
+      <nav className={`
+        fixed z-50 flex items-center
+        /* MOBILE POSITION */
+        top-5 right-4 gap-2 
+        /* DESKTOP POSITION */
+        md:top-10 md:right-12 md:gap-4
+      `}>
+        
+        {/* LinkedIn Button */}
+        <a 
+          href={PORTFOLIO.linkedin} 
+          target="_blank" 
+          rel="noopener noreferrer" 
+          className={`
+            rounded-full bg-white/40 backdrop-blur-md border border-gray-200 shadow-sm transition-all hover:scale-110 text-gray-700
+            /* MOBILE SIZE */
+            p-2
+            /* DESKTOP SIZE */
+            md:p-3
+          `}
+        >
+          {/* Responsive Icon Size */}
+          <Linkedin className="w-4 h-4 md:w-5 md:h-5" />
         </a>
-        <a href={PORTFOLIO.cvLink} download className="px-6 py-3 rounded-full bg-white/40 backdrop-blur-md border border-white/50 hover:scale-110 text-gray-700 shadow-sm flex items-center gap-2 transition-all">
-          <Download size={16} />
-          <span className="text-sm font-medium">CV</span>
+
+        {/* CV Button */}
+        <a 
+          href={PORTFOLIO.cvLink} 
+          download 
+          className={`
+            rounded-full bg-white/40 backdrop-blur-md border border-gray-200 shadow-sm flex items-center transition-all hover:scale-110 text-gray-700
+            /* MOBILE SIZE */
+            px-3 py-2 gap-1.5
+            /* DESKTOP SIZE */
+            md:px-6 md:py-3 md:gap-2
+          `}
+        >
+          <Download className="w-3.5 h-3.5 md:w-4 md:h-4" />
+          <span className="font-bold uppercase tracking-wider text-[10px] md:text-sm">
+            CV
+          </span>
         </a>
       </nav>
-
       {/* --- FIXED BACKGROUND LAYER --- */}
       <motion.div style={{ opacity: bgOpacity }} className="fixed inset-0 z-0 flex justify-end items-end pointer-events-none md:pr-22">
         <div 
@@ -113,10 +177,18 @@ const App = () => {
         </div>
       </motion.div>
 
-      {/* --- HERO TEXT --- */}
-      <div className="fixed bottom-0 left-0 w-full z-30 px-6 md:px-10 pb-12 pointer-events-none">
+{/* --- HERO TEXT --- */}
+      {/* Changed pb-12 to pb-6 on mobile, and kept md:pb-12 for desktop */}
+      <div className="fixed bottom-0 left-0 w-full z-30 px-6 md:px-10 pb-6 md:pb-12 pointer-events-none">
         <motion.div style={{ opacity: textOpacity }}>
-          <h1 className="text-7xl md:text-9xl font-display font-medium tracking-tighter text-white md:text-black mb-6 leading-[0.9] flex flex-col">
+          <h1 
+            className="text-7xl md:text-9xl font-display font-medium tracking-tighter text-white md:text-black mb-2 leading-[0.9] flex flex-col"
+            style={{
+              filter: window.innerWidth < 768 
+                ? 'drop-shadow(0 2px 4px rgba(0,0,0,0.5)) drop-shadow(0 10px 20px rgba(0,0,0,0.3))' 
+                : 'none'
+            }}
+          >
             <span>Leon</span>
             <span className="-translate-x-1 md:translate-x-2">Trowsdale</span>
           </h1>
@@ -125,7 +197,12 @@ const App = () => {
               <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
               <span className="relative inline-flex rounded-full h-3 w-3 bg-green-500 shadow-[0_0_10px_rgba(34,197,94,0.6)]"></span>
             </span>
-            <p className="text-lg md:text-2xl font-light tracking-wide max-w-xl text-white md:text-gray-500">
+            <p 
+              className="text-lg md:text-2xl font-light tracking-wide max-w-xl text-white md:text-gray-500"
+              style={{
+                filter: window.innerWidth < 768 ? 'drop-shadow(0 2px 8px rgba(0,0,0,0.5))' : 'none'
+              }}
+            >
               {PORTFOLIO.role}
             </p>
           </div>
@@ -145,11 +222,10 @@ const App = () => {
           <div className="max-w-6xl mx-auto px-6 md:px-12">
             
             {/* --- EXPERIENCE & EDUCATION --- */}
-            {/* Standardized Spacing: pt-20 (Start of major section), mb-20 (Section gap) */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 border-t border-gray-100 pt-20 mb-20 items-start">
               
               <section className="lg:order-2 order-1 bg-gray-50/50 rounded-3xl p-8 border border-gray-100 shadow-sm h-full">
-                <div className="flex items-center gap-3 mb-10"> {/* mb-10 for internal header */}
+                <div className="flex items-center gap-3 mb-10">
                   <div className="h-8 w-1 bg-green-500 rounded-full"></div>
                   <h2 className="text-sm font-mono text-gray-400 uppercase tracking-widest">Experience</h2>
                 </div>
@@ -168,7 +244,7 @@ const App = () => {
                 </div>
               </section>
 
-              <div className="lg:order-1 order-2 flex flex-col gap-10"> {/* gap-10 between cards */}
+              <div className="lg:order-1 order-2 flex flex-col gap-10">
                 <section className="bg-gray-50/50 rounded-3xl p-8 border border-gray-100 shadow-sm">
                   <div className="flex items-center gap-3 mb-10">
                     <div className="h-8 w-1 bg-green-500 rounded-full"></div>
@@ -206,7 +282,6 @@ const App = () => {
             </div>
 
             {/* --- PROJECTS SECTION --- */}
-            {/* Standardized Spacing: pt-20 (Major start), mb-20 (Section gap) */}
             <section className="mb-20 px-4 md:px-0 border-t border-gray-100 pt-20">
               <div className="flex items-baseline justify-between mb-10">
                 <div className="flex items-center gap-3">
@@ -219,7 +294,6 @@ const App = () => {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-                {/* ADDED FILTER: Only showing featured projects on landing page */}
                 {PORTFOLIO.projects
                   .filter(project => project.featured)
                   .map((project, i) => (
@@ -235,8 +309,6 @@ const App = () => {
                   >
                     <div className="relative aspect-[16/10] overflow-hidden rounded-3xl bg-gray-100 shadow-sm transition-all group-hover:shadow-[0_20px_40px_rgba(34,197,94,0.15)]">
                       <img src={project.image} alt={project.title} className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105" />
-                      
-                      {/* OVERLAY with Short Description */}
                       <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 group-active:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center p-8 text-center">
                         <p className="text-white text-sm md:text-base leading-relaxed mb-6 transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
                           {project.shortDescription}
@@ -245,10 +317,8 @@ const App = () => {
                           <ArrowUpRight size={20} className="text-black" />
                         </div>
                       </div>
-
                       <div className="absolute inset-0 border-0 group-hover:border-4 group-active:border-4 border-green-500/50 rounded-3xl transition-all duration-200"></div>
                     </div>
-
                     <div className="mt-4 flex justify-between items-start px-2">
                       <div>
                         <h3 className="text-xl font-bold text-black group-hover:text-green-700 transition-colors">{project.title}</h3>
@@ -260,7 +330,6 @@ const App = () => {
                 ))}
               </div>
 
-              {/* View All Button: mt-20 for clear separation */}
               <div className="mt-10 flex justify-center">
                 <Link 
                   to="/projects" 
@@ -273,7 +342,6 @@ const App = () => {
             </section>
 
             {/* --- FOOTER --- */}
-            {/* Standardized Spacing: mt-20 (Final section), pt-20 (Internal break) */}
             <footer className="mt-10 border-t border-gray-100 pt-20 flex flex-col items-center">
               <p className="text-gray-400 mb-10 font-mono text-sm tracking-widest">CONNECT WITH ME</p>
               <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto mb-20">

@@ -2,23 +2,46 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ArrowLeft, ArrowUpRight } from 'lucide-react';
-import { PORTFOLIO } from './data'; //
+import { PORTFOLIO } from './data';
 
 export default function ProjectsPage() {
   return (
     <motion.main className="min-h-screen bg-white">
-      <nav className="p-8 md:px-24 border-b border-gray-100 flex justify-between items-center bg-white/80 backdrop-blur-md sticky top-0 z-50">
-        <Link to="/" className="flex items-center gap-2 text-sm font-mono text-gray-400 hover:text-green-600 transition-colors">
+
+      {/* --- STICKY MINI BRAND (Stays on screen) --- */}
+      <Link 
+        to="/"
+        className="fixed top-5 left-6 md:top-11 md:left-10 z-[70] cursor-pointer group outline-none flex items-center gap-2 h-9 pointer-events-auto"
+      >
+        <div className="h-4 w-1 bg-green-500 rounded-full group-hover:shadow-[0_0_12px_rgba(34,197,94,0.6)] transition-shadow"></div>
+        <span className="text-sm md:text-base font-bold tracking-tighter text-black uppercase whitespace-nowrap group-hover:text-green-700 transition-colors">
+          Leon Trowsdale
+        </span>
+      </Link>
+
+      {/* --- FLOATING BACK BUTTON (Beneath Mini Brand) --- */}
+      <Link 
+        to="/" 
+        className="fixed top-16 left-6 md:top-20 md:left-10 z-[70] flex items-center gap-2 text-[10px] font-mono text-gray-400 hover:text-green-600 transition-colors bg-white/50 py-1 pr-2 rounded-full backdrop-blur-sm"
+      >
+        <ArrowLeft size={14} /> HOME
+      </Link>
+
+      {/* --- STATIC NAV (Scrolls with page) --- */}
+      <nav className="p-8 md:px-24 border-b border-gray-100 flex justify-between items-center bg-white">
+        {/* Placeholder to maintain the horizontal line and right-side text */}
+        <div className="invisible flex items-center gap-2 text-sm font-mono">
           <ArrowLeft size={16} /> HOME
-        </Link>
+        </div>
+        
         <span className="text-[10px] font-mono text-gray-300 uppercase tracking-widest">
            Project Index / {PORTFOLIO.projects.length} Total
         </span>
       </nav>
 
-      <div className="max-w-6xl mx-auto px-8 py-20"> {/* Standardized py-20 */}
-        <header className="mb-20"> {/* Standardized mb-20 */}
-          <div className="flex items-center gap-3 mb-10"> {/* Standardized mb-10 */}
+      <div className="max-w-6xl mx-auto px-8 py-20">
+        <header className="mb-20">
+          <div className="flex items-center gap-3 mb-10">
             <div className="h-8 w-1 bg-green-500 rounded-full"></div>
             <h1 className="text-sm font-mono text-gray-400 uppercase tracking-widest">Project Collection</h1>
           </div>
@@ -48,24 +71,17 @@ export default function ProjectsPage() {
                 to={`/projects/${project.slug}`} 
                 className="group grid grid-cols-1 md:grid-cols-12 items-center py-8 md:py-6 border-b border-gray-50 hover:bg-gray-50/50 px-4 transition-all"
               >
-                {/* Year */}
                 <div className="col-span-1 text-xs font-mono text-gray-300 mb-2 md:mb-0">
                   {project.year || "2026"}
                 </div>
-
-                {/* Title */}
                 <div className="col-span-5">
                   <h3 className="text-xl font-bold text-black group-hover:text-green-700 transition-colors">
                     {project.title}
                   </h3>
                 </div>
-
-                {/* Category */}
                 <div className="col-span-4 text-sm text-gray-500 font-medium">
                   {project.category}
                 </div>
-
-                {/* Action Icon */}
                 <div className="col-span-2 flex justify-end">
                   <div className="h-8 w-8 rounded-full border border-gray-100 flex items-center justify-center group-hover:bg-green-500 group-hover:border-green-500 transition-all">
                     <ArrowUpRight size={14} className="text-gray-400 group-hover:text-white" />
@@ -77,7 +93,6 @@ export default function ProjectsPage() {
         </div>
       </div>
       
-      {/* Simple Footer */}
       <footer className="py-20 text-center">
         <p className="text-[10px] font-mono text-gray-300 uppercase tracking-[0.2em] select-none">
           © 2026 {PORTFOLIO.name}
