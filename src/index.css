@@ -4,19 +4,60 @@
 @tailwind components;
 @tailwind utilities;
 
-body {
-  background-color: #ffffff;
-  color: #111111;
-  font-family: 'Inter', sans-serif;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased; /* Critical for the clean look */
+/* --- THEME VARIABLES --- */
+:root {
+  --pill-border: rgba(229, 231, 235, 1);
+  --bg-color: #ffffff;
+  --text-color: #111111;
+  --fog-rgb: 255, 255, 255;
 }
 
+html.dark {
+  --pill-border: rgba(38, 38, 38, 1);
+  --bg-color: #111111;
+  --text-color: #ffffff;
+  --fog-rgb: 17, 17, 17;
+}
+
+/* --- ROOT & BODY THEME SYNC --- */
+html, body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  font-family: 'Inter', sans-serif;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  
+  /* CRITICAL: We disable background transitions. 
+     The "Sonic Boom" ripple in App.jsx provides the visual motion; 
+     the CSS must snap instantly to avoid a blurry "double-transition" look.
+  */
+  transition: none !important;
+}
+
+/* Specific background color for dark mode root to fix overscroll */
+html.dark, html.dark body {
+  background-color: #111111 !important;
+}
+
+/* --- TYPOGRAPHY --- */
 h1, h2, h3 {
   font-family: 'Sora', sans-serif;
 }
 
-/* Hide scrollbar for cleaner aesthetic, but keep functionality */
+/* --- SONIC BOOM OPTIMIZATION --- */
+/* This forces all elements to swap themes instantly behind the ripple wave. */
+*, ::before, ::after {
+  transition-duration: 0s !important;
+}
+
+/* Allow interactive elements to keep their hover/active animations 
+   without affecting the theme-toggle snap. */
+.group, button, a, .motion-span {
+  transition-property: transform, opacity, box-shadow !important;
+  transition-duration: 300ms !important;
+}
+
+/* --- SCROLLBAR --- */
 ::-webkit-scrollbar {
   width: 0px; 
   background: transparent; 
