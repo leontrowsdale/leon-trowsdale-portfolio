@@ -32,7 +32,13 @@ const App = () => {
   const smoothY = useSpring(mouseY, { stiffness: 150, damping: 20 });
   const maskImage = useMotionTemplate`radial-gradient(350px circle at ${smoothX}px ${smoothY}px, black 0%, transparent 100%)`;
 
-  useEffect(() => {
+useEffect(() => {
+    // Force Light Mode if no preference is saved yet
+    if (!localStorage.theme) {
+      document.documentElement.classList.remove('dark');
+      setIsDarkMode(false);
+    }
+    
     window.scrollTo(0, 0);
     const userAgent = window.navigator.userAgent.toLowerCase();
     const safari = userAgent.indexOf('safari') !== -1 && userAgent.indexOf('chrome') === -1;
@@ -97,11 +103,46 @@ const App = () => {
     mouseY.set(e.clientY - rect.top);
   };
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(PORTFOLIO.email).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    });
+const handleCopy = () => {
+    const email = PORTFOLIO.email;
+
+    // Fallback for mobile browsers or non-HTTPS environments
+    const fallbackCopy = (text) => {
+      const textArea = document.createElement("textarea");
+      textArea.value = text;
+      // Ensure it's not visible but part of the DOM
+      textArea.style.position = "fixed";
+      textArea.style.left = "-9999px";
+      textArea.style.top = "0";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      
+      try {
+        document.execCommand('copy');
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch (err) {
+        console.error('Fallback copy failed', err);
+      }
+      document.body.removeChild(textArea);
+    };
+
+    // Attempt modern Clipboard API
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(email)
+        .then(() => {
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        })
+        .catch(() => {
+          // Revert to fallback if API fails
+          fallbackCopy(email);
+        });
+    } else {
+      // Direct fallback for older browsers/insecure contexts
+      fallbackCopy(email);
+    }
   };
 
   const buttonClass = "group px-8 py-4 rounded-xl flex items-center justify-center gap-3 min-w-[200px] transition-all duration-300 border bg-white dark:bg-neutral-900 text-black dark:text-white border-gray-200 dark:border-neutral-800 hover:border-green-500 hover:text-green-700 dark:hover:text-green-400 hover:shadow-[0_0_25px_rgba(74,222,128,0.3)] hover:scale-105 active:scale-95";
@@ -146,15 +187,40 @@ const App = () => {
         </a>
       </nav>
 
-      {/* --- FIXED BACKGROUND LAYER --- */}
-      <motion.div style={{ opacity: bgOpacity }} className="fixed inset-0 z-0 flex justify-end items-end pointer-events-none md:pr-22">
-        <div className="w-full h-full max-h-[100dvh] md:w-[60vw] md:h-[95vh] relative pointer-events-auto cursor-default overflow-hidden" onMouseMove={handleMouseMove} onMouseEnter={() => { controls?.x?.stop(); controls?.y?.stop(); setIsHovered(true); }} onMouseLeave={startIdleAnimation}>
-          <img src={PORTFOLIO.headshot} alt="Leon Profile" className={`absolute inset-0 w-full object-cover object-bottom grayscale contrast-125 opacity-90 transition-all duration-500 ${isSafari ? 'h-[115%] min-h-[105svh]' : 'h-[110%]'}`} />
-          <motion.div className="absolute inset-0 z-10" style={{ WebkitMaskImage: maskImage, maskImage: maskImage }} animate={{ opacity: isHovered ? 1 : 0 }} transition={{ duration: 1 }}>
-            <img src={PORTFOLIO.headshot} alt="Leon Profile Color" className={`w-full object-cover object-bottom contrast-125 transition-all duration-500 ${isSafari ? 'h-[115%] min-h-[105svh]' : 'h-[110%]'}`} />
-          </motion.div>
-        </div>
-      </motion.div>
+{/* --- HERO IMAGE LAYER --- */}
+<motion.div style={{ opacity: bgOpacity }} className="fixed inset-0 z-0 flex justify-end items-end pointer-events-none md:pr-22">
+  <div 
+    className="w-full h-full max-h-[100dvh] md:w-[60vw] md:h-[95vh] relative pointer-events-auto cursor-default overflow-hidden" 
+    onMouseMove={handleMouseMove} 
+    onMouseEnter={() => { 
+      controls?.x?.stop(); 
+      controls?.y?.stop(); 
+      setIsHovered(true); 
+    }} 
+    onMouseLeave={startIdleAnimation}
+    // ADD THESE TWO LINES BELOW:
+    onTouchStart={() => { controls?.x?.stop(); controls?.y?.stop(); setIsHovered(true); }}
+    onTouchEnd={() => { setTimeout(startIdleAnimation, 500); }} // Slight delay for smoothness
+  >
+    <img 
+      src={PORTFOLIO.headshot} 
+      alt="Leon Profile" 
+      className={`absolute inset-0 w-full object-cover object-bottom grayscale contrast-125 opacity-90 transition-all duration-500 ${isSafari ? 'h-[115%] min-h-[105svh]' : 'h-[110%]'}`} 
+    />
+    <motion.div 
+      className="absolute inset-0 z-10" 
+      style={{ WebkitMaskImage: maskImage, maskImage: maskImage }} 
+      animate={{ opacity: isHovered ? 1 : 0 }} 
+      transition={{ duration: 1 }}
+    >
+      <img 
+        src={PORTFOLIO.headshot} 
+        alt="Leon Profile Color" 
+        className={`w-full object-cover object-bottom contrast-125 transition-all duration-500 ${isSafari ? 'h-[115%] min-h-[105svh]' : 'h-[110%]'}`} 
+      />
+    </motion.div>
+  </div>
+</motion.div>
 
       {/* --- HERO TEXT --- */}
       <div className="fixed bottom-0 left-0 w-full z-30 px-6 md:px-10 pb-6 md:pb-12 pointer-events-none">
@@ -296,7 +362,20 @@ const App = () => {
             <footer className="mt-20 border-t border-gray-100 dark:border-neutral-800 pt-5 transition-colors flex flex-col items-center">
               <p className="text-gray-400 dark:text-gray-500 mb-5 font-mono text-sm tracking-widest">CONNECT WITH ME</p>
               <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto mb-10">
-                <button onClick={handleCopy} className={buttonClass}>{copied ? <Check size={18} /> : <Copy size={18} />}<span>{copied ? "Copied!" : "Email"}</span></button>
+                <button 
+  onClick={handleCopy} 
+  className={buttonClass}
+>
+  <motion.div 
+    key={copied ? 'checked' : 'copy'}
+    initial={{ scale: 0.8, opacity: 0 }}
+    animate={{ scale: 1, opacity: 1 }}
+    className="flex items-center gap-3"
+  >
+    {copied ? <Check size={18} /> : <Copy size={18} />}
+    <span>{copied ? "Copied!" : "Email"}</span>
+  </motion.div>
+</button>
                 <a href={PORTFOLIO.linkedin} target="_blank" rel="noopener noreferrer" className={buttonClass}><Linkedin size={18} /><span className="font-medium">LinkedIn</span></a>
                 <a href={PORTFOLIO.cvLink} download className={buttonClass}><Download size={18} /><span className="font-medium">Download CV</span></a>
               </div>
