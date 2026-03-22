@@ -273,7 +273,7 @@ export const PORTFOLIO = {
         },
         {
           type: "video",
-          src: "/2049.mp4", // <--- UPDATE THIS
+          src: "https://pub-2b894606ed614c3db14cf8dbbb39ce7e.r2.dev/2049.mp4", // <--- UPDATE THIS
           poster: "/2049_poster.png",
           caption: "Blade Runner 2049 Edit"
         }
