@@ -180,25 +180,83 @@ export default function ProjectDetail() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
+          {/* --- DYNAMIC DETAILS RENDERER --- */}
           <div className="lg:col-span-2 prose prose-lg dark:prose-invert">
             <h2 className="text-2xl font-bold mb-6 text-black dark:text-white">Overview</h2>
-            <p className="text-gray-600 dark:text-gray-400 whitespace-pre-line leading-relaxed">
-              {project.details}
-            </p>
+            
+{Array.isArray(project.details) ? (
+              project.details.map((block, index) => {
+                // --- TEXT BLOCK ---
+                if (block.type === 'text') {
+                  return (
+                    <p key={index} className="text-gray-600 dark:text-gray-400 whitespace-pre-line leading-relaxed mb-6">
+                      {block.content}
+                    </p>
+                  );
+                }
+                // --- IMAGE BLOCK ---
+                if (block.type === 'image') {
+                  return (
+                    <figure key={index} className="my-10">
+                      <img 
+                        src={block.src} 
+                        alt={block.caption || `${project.title} visualization`} 
+                        className="rounded-2xl w-full shadow-lg border border-gray-100 dark:border-neutral-800"
+                      />
+                      {block.caption && (
+                        <figcaption className="mt-3 text-center text-xs font-mono text-gray-400 uppercase tracking-widest">
+                          {block.caption}
+                        </figcaption>
+                      )}
+                    </figure>
+                  );
+                }
+                // --- VIDEO BLOCK ---
+                if (block.type === 'video') {
+                  return (
+                    <figure key={index} className="my-10">
+                      <video 
+                        src={block.src} 
+                        poster={block.poster} // <--- ADDED THIS LINE
+                        controls={block.controls !== false} // Shows play/pause by default
+                        autoPlay={block.autoPlay}           // Optional autoplay
+                        loop={block.loop}                   // Optional loop
+                        muted={block.muted}                 // Required if autoplaying
+                        playsInline                         // Better mobile experience
+                        className="rounded-2xl w-full shadow-lg border border-gray-100 dark:border-neutral-800 bg-black"
+                      >
+                        Your browser does not support the video tag.
+                      </video>
+                      {block.caption && (
+                        <figcaption className="mt-3 text-center text-xs font-mono text-gray-400 uppercase tracking-widest">
+                          {block.caption}
+                        </figcaption>
+                      )}
+                    </figure>
+                  );
+                }
+                return null;
+              })
+            ) : (
+              // Fallback if details is just a standard string
+              <p className="text-gray-600 dark:text-gray-400 whitespace-pre-line leading-relaxed">
+                {project.details}
+              </p>
+            )}
           </div>
           
           <aside className="border-t border-gray-100 dark:border-neutral-800 pt-8 lg:border-t-0 lg:pt-0">
              <div className="space-y-8">
-                <div>
-                  <h4 className="text-[10px] font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2">Tools Used</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {PORTFOLIO.skills.slice(0, 4).map(skill => (
-                      <span key={skill} className="px-3 py-1 bg-gray-50 dark:bg-neutral-900 rounded-full text-xs text-gray-600 dark:text-gray-400 border border-gray-100 dark:border-neutral-800 transition-colors">
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+               <div>
+                 <h4 className="text-[10px] font-mono text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-2">Tools Used</h4>
+                 <div className="flex flex-wrap gap-2">
+                   {(project.tools || []).map(skill => (
+  <span key={skill} className="px-3 py-1 bg-gray-50 dark:bg-neutral-900 rounded-full text-xs text-gray-600 dark:text-gray-400 border border-gray-100 dark:border-neutral-800 transition-colors shadow-sm">
+    {skill}
+  </span>
+))}
+                 </div>
+               </div>
              </div>
           </aside>
         </div>
