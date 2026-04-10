@@ -87,7 +87,7 @@ export const PORTFOLIO = {
         {
           type: "image",
           src: "/Dartboard_Data.png", // <--- UPDATE THIS
-          caption: "Initial camera testing."
+          caption: "Detection statistics."
         },
         {
           type: "text",
@@ -123,7 +123,7 @@ export const PORTFOLIO = {
         {
           type: "image",
           src: "/Renders.png", // <--- UPDATE THIS
-          caption: "Technical drawing for the top plate."
+          caption: "Concept renders of the product."
         },
         {
           type: "text",
@@ -182,11 +182,18 @@ export const PORTFOLIO = {
         {
           type: "video",
           src: "/hovercraft_back_video.mov", // <--- UPDATE THIS
-          caption: "Operational Video."
+          caption: "Operational Video.",
+	  aspectRatio: "1/1"
         },
         {
           type: "text",
           content: "The project was both technically and creatively rewarding. It deepened my understanding of mechanical design, electronics, and problem-solving, while also demonstrating how persistence and iteration lead to tangible results. Seeing the hovercraft successfully glide across the floor was an incredibly satisfying moment - not just because it worked, but because it represented my ability to turn curiosity and resourcefulness into a real, functioning creation that inspired others around me to experiment with 3D printing too."
+        },
+        {
+          type: "video",
+          src: "/hovercraft_top_video.mp4", // <--- UPDATE THIS
+          caption: "Operational Video.",
+	  aspectRatio: "1/1"
         }
       ]
     },
@@ -263,7 +270,7 @@ export const PORTFOLIO = {
         },
         {
           type: "video",
-          src: "/Vietnam 2024 Smaller.mp4", // <--- UPDATE THIS
+          src: "https://pub-2b894606ed614c3db14cf8dbbb39ce7e.r2.dev/Vietnam%202024%20Small.mp4", // <--- UPDATE THIS
           poster: "/vietnam_poster.png",
           caption: "Family Vietnam Trip - 2024"
         },

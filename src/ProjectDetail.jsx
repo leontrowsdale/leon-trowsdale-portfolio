@@ -211,30 +211,33 @@ export default function ProjectDetail() {
                     </figure>
                   );
                 }
-                // --- VIDEO BLOCK ---
-                if (block.type === 'video') {
-                  return (
-                    <figure key={index} className="my-10">
-                      <video 
-                        src={block.src} 
-                        poster={block.poster} // <--- ADDED THIS LINE
-                        controls={block.controls !== false} // Shows play/pause by default
-                        autoPlay={block.autoPlay}           // Optional autoplay
-                        loop={block.loop}                   // Optional loop
-                        muted={block.muted}                 // Required if autoplaying
-                        playsInline                         // Better mobile experience
-                        className="rounded-2xl w-full shadow-lg border border-gray-100 dark:border-neutral-800 bg-black"
-                      >
-                        Your browser does not support the video tag.
-                      </video>
-                      {block.caption && (
-                        <figcaption className="mt-3 text-center text-xs font-mono text-gray-400 uppercase tracking-widest">
-                          {block.caption}
-                        </figcaption>
-                      )}
-                    </figure>
-                  );
-                }
+// --- VIDEO BLOCK ---
+if (block.type === 'video') {
+  return (
+    <figure key={index} className="my-10">
+      <video 
+        src={block.src} 
+        poster={block.poster}
+        controls={block.controls !== false}
+        autoPlay={block.autoPlay}
+        loop={block.loop}
+        muted={block.muted}
+        playsInline
+        // Removed aspect-video, kept object-cover for cropping
+        className="rounded-2xl w-full object-cover shadow-lg border border-gray-100 dark:border-neutral-800 bg-black"
+        // ADD THIS STYLE PROP:
+        style={{ aspectRatio: block.aspectRatio || '16/9' }} 
+      >
+        Your browser does not support the video tag.
+      </video>
+      {block.caption && (
+        <figcaption className="mt-3 text-center text-xs font-mono text-gray-400 uppercase tracking-widest">
+          {block.caption}
+        </figcaption>
+      )}
+    </figure>
+  );
+}
                 return null;
               })
             ) : (
