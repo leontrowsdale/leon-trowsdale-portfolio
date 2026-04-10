@@ -87,7 +87,7 @@ export const PORTFOLIO = {
         {
           type: "image",
           src: "/Dartboard_Data.png", // <--- UPDATE THIS
-          caption: "Initial camera testing."
+          caption: "Detection statistics."
         },
         {
           type: "text",
@@ -123,7 +123,7 @@ export const PORTFOLIO = {
         {
           type: "image",
           src: "/Renders.png", // <--- UPDATE THIS
-          caption: "Technical drawing for the top plate."
+          caption: "Concept renders of the product."
         },
         {
           type: "text",
